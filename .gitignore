@@ -1,0 +1,7 @@
+.env
+__pycache__/
+uploads/
+test.py
+models/
+threat-intel-reports.zip
+threat-intel-reports/
