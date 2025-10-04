@@ -16,7 +16,7 @@ def insert_pdf(filename):
    
     cursor.execute(
         "INSERT INTO pdf_documents (id, filename, uploaded_at, processed_at) VALUES (?, ?, ?, NULL)",
-        (pdf_id, filename, uploaded_at)
+        (pdf_id, filename, uploaded_at, uploaded_at)
     )
     conn.commit()
     conn.close()
@@ -28,10 +28,9 @@ def insert_threat_actors(pdf_id, name, aliases=None, description= None ):
     actor_id = str(uuid.uuid4())
     extracted_at = datetime.utcnow()
     cursor.execute("INSERT INTO threat_actors(id, pdf_id, name, aliases, description, extracted_at) VALUES(?,?,?,?,?,?)",
-                   (actor_id, pdf_id, name, aliases,description , extracted_at)
+                   (actor_id, pdf_id, name, json.dumps(aliases) if aliases else None, description , extracted_at)
                    )
     conn.commit()
-    conn.close()
     return actor_id
 
 def insert_cves(cve_id, pdf_id, description=None, severity=None):

@@ -1,7 +1,9 @@
 from fastapi import FastAPI, File, UploadFile
-from pdf_utils import extract_text_from_pdf, extract_threat_actors, extract_cves, extract_json
+from pdf_utils import extract_text_from_pdf, extract_threat_actors, extract_cves
 from db_helper import insert_pdf, insert_threat_actors, insert_cves
-import os
+import os, re, json
+from dotenv import load_dotenv
+import asyncio
 
 
 # file_path = '/Users/kritiagrawal/Documents/Data Science Prep/Projects/pdf_threat_extraction/threat-intel-reports/file1.pdf'
@@ -36,35 +38,32 @@ async def upload_pdf(file: UploadFile = File(...)):
     text = extract_text_from_pdf(filepath)
 
     cves = extract_cves(text)
-    cves_json = extract_json(cves)
+    print(cves)
+    await asyncio.sleep(60)  
 
-    print(cves_json)
-
-    threats = extract_threat_actors(text)
-    threat_json = extract_json(threats)
-    # print("CVEs are", cves)
-
+    threat_json = extract_threat_actors(text)
     print(threat_json)
 
-    # cves_json = [{'cve_id': 'CVE-2022-229476', 'severity': 'Medium', 'description': 'Arbitrary code execution vulnerability in Laravel, a popular web application framework, due to insufficient input validation (CWE-23).'}, {'cve_id': 'CVE-2021-442289', 'severity': 'High', 'description': "Remote code execution vulnerability in Android's MediaFramework, allowing attackers to execute arbitrary code via specially crafted media files."}, {'cve_id': 'CVE-2020-1488211', 'severity': 'Critical', 'description': "Zero-day vulnerability in Apple's iOS and iPadOS that could allow attackers to execute arbitrary code with kernel privileges."}, {'cve_id': 'CVE-2019-272513', 'severity': 'High', 'description': 'Remote code execution vulnerability in Adobe Acrobat and Reader due to a use-after-free issue in the JavaScript engine.'}, {'cve_id': 'CVE-2022-22947', 'severity': 'Medium', 'description': 'Command injection vulnerability in Laravel, a web application framework, due to insufficient input validation (CWE-77).'}, {'cve_id': 'CVE-2020-14882', 'severity': 'High', 'description': 'Remote code execution vulnerability in Microsoft Exchange Server due to a zero-day exploit in the ProxyLogon component.'}, {'cve_id': 'CVE-2022-26134', 'severity': 'High', 'description': 'Remote code execution vulnerability in Google Chrome due to a use-after-free issue in the V8 JavaScript engine.'}, {'cve_id': 'CVE-2019-2725', 'severity': 'Medium', 'description': 'Information disclosure vulnerability in the Apache Struts web application framework due to a deserialization issue.'}] 
-    #   threat_json = [{'name': 'RomCom Threat Actor', 'aliases': [], 'description': 'A threat actor known for abusing popular mobile devices software brands to target Ukraine and potentially the United Kingdom with crypto miners and cryptojacking.'}, {'name': 'Mustang Panda', 'aliases': ['APT31', 'Chinese APT'], 'description': 'An advanced persistent threat (APT) group that uses the Russian-Ukrainian war as a theme to attack Europe and Asia Pacific targets with industry-specific attacks, including downloaders, infostealers, Emotet, ransomware (CryWiper), dual-use tools, and supply-chain attacks.'}, {'name': 'ARCrypter', 'aliases': [], 'description': 'A ransomware group that has expanded its operations from Latin America to the world.'}]
-
+    threat_json = [{'name': 'APT28', 'aliases': ['Fancy Bear', 'Sofacy Group', 'Sednit', 'Strontium', 'Tsar Team', 'Swallowtail'], 'description': 'A Russian government-sponsored cyber espionage group.'}, {'name': 'APT29', 'aliases': ['Cozy Bear', 'The Dukes', 'Cloaked Ursa', 'Midnight Blizzard'], 'description': 'A Russian government-sponsored cyber espionage group.'}]
+    print(threat_json)
     if threat_json is not None:
         for threat in threat_json:
             try:
                 threat_id = insert_threat_actors(pdf_id, threat['name'], threat['aliases'], threat['description'])
+                print(threat_id)
             except:
                 continue
 
-    if cves_json is not None:
-    
-        for cve in cves_json:
+    if cves is not None:
+        
+        for cve in cves:
             try:
                 added = insert_cves(cve['cve_id'], pdf_id, cve['description'], cve['severity'])
             except:
                 continue
     
     return  pdf_id
+        
        
     
     
