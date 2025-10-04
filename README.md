@@ -76,5 +76,5 @@ SELECT * FROM cves ;
 SELECT * FROM threat_actors ;
 ```
 ### 8. Notes:
--To handle rate limits, I have added a time.sleep between checking for CVEs and threat actors. The application might take a minute to fully load the results. 
+- To handle rate limits, I have added a time.sleep between checking for CVEs and threat actors. The application might take a minute to fully load the results. 
 - API Key can be obtained from "https://ai.google.dev/api"
