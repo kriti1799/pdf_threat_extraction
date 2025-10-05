@@ -5,3 +5,4 @@ test.py
 models/
 threat-intel-reports.zip
 threat-intel-reports/
+pdf_threat.db

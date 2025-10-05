@@ -30,8 +30,8 @@ This is a FastAPI microservice that extracts threat actors and CVEs from PDF thr
 
 ### 1. Clone the repository
 ```bash
-git clone https://github.com/yourusername/pdf-threat-extraction.git
-cd pdf-threat-extraction
+git clone https://github.com/yourusername/pdf_threat_extraction.git
+cd pdf_threat_extraction
 ``` 
 ### 2. Create a virtual environment
 ```bash
