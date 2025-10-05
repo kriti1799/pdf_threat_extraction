@@ -51,6 +51,11 @@ pip install -r requirements.txt
 GOOGLE_API_KEY = your api key here
 ```
 
+### 5. Create databsase by running this:
+``` bash
+python create_db.py
+```
+
 ### 5. Run the FASTAPI APP
 ``` bash
 uvicorn main:app --reload
