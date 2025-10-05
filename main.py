@@ -44,8 +44,7 @@ async def upload_pdf(file: UploadFile = File(...)):
     threat_json = extract_threat_actors(text)
     print(threat_json)
 
-    threat_json = [{'name': 'APT28', 'aliases': ['Fancy Bear', 'Sofacy Group', 'Sednit', 'Strontium', 'Tsar Team', 'Swallowtail'], 'description': 'A Russian government-sponsored cyber espionage group.'}, {'name': 'APT29', 'aliases': ['Cozy Bear', 'The Dukes', 'Cloaked Ursa', 'Midnight Blizzard'], 'description': 'A Russian government-sponsored cyber espionage group.'}]
-    print(threat_json)
+    
     if threat_json is not None:
         for threat in threat_json:
             try:
