@@ -15,7 +15,7 @@ def insert_pdf(filename):
     uploaded_at = datetime.utcnow()
    
     cursor.execute(
-        "INSERT INTO pdf_documents (id, filename, uploaded_at, processed_at) VALUES (?, ?, ?, NULL)",
+        "INSERT INTO pdf_documents (id, filename, uploaded_at, processed_at) VALUES (?, ?, ?, ?)",
         (pdf_id, filename, uploaded_at, uploaded_at)
     )
     conn.commit()
