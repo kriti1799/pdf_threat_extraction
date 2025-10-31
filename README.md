@@ -72,7 +72,7 @@ The values of all the tables can be printed by simply running:
 ``` bash
 python table_print.py
 ```
-ALternatively, table contents can also be chacked by
+Alternatively, table contents can also be checked by
 ``` bash
 sqlite3 database.db
 .tables
